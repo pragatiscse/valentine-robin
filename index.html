@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Valentine Proposal</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-family: "Comic Sans MS", cursive;
+      background: linear-gradient(to bottom, #ffd6e8, #fff0f6);
+      overflow: hidden;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    h1 {
+      font-size: clamp(45px, 7vw, 80px);
+      color: darkred;
+      margin: 10px;
+    }
+
+    h2 {
+      font-size: clamp(28px, 5vw, 55px);
+      color: maroon;
+      margin-bottom: 50px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 60px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 20px 60px;
+      font-size: clamp(22px, 4vw, 35px);
+      border-radius: 60px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    #yes {
+      background: red;
+      color: white;
+      box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
+    }
+
+    #yes:hover {
+      transform: scale(1.1);
+    }
+
+    #no {
+      background: white;
+      color: black;
+      box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
+    }
+
+    #msg {
+      margin-top: 35px;
+      font-size: clamp(20px, 4vw, 32px);
+      color: darkred;
+    }
+
+    /* 💖 Hearts Animation */
+    .heart {
+      position: fixed;
+      bottom: -20px;
+      animation: floatUp 6s linear forwards;
+      opacity: 0.9;
+      z-index: 1;
+    }
+
+    @keyframes floatUp {
+      from {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(-120vh);
+        opacity: 0;
+      }
+    }
+
+    /* 🎊 Confetti */
+    .confetti {
+      position: fixed;
+      top: -10px;
+      width: 12px;
+      height: 12px;
+      animation: fall 3s linear forwards;
+      z-index: 2;
+    }
+
+    @keyframes fall {
+      from { transform: translateY(0) rotate(0deg); opacity: 1; }
+      to { transform: translateY(120vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* ✅ Center Text Output */
+    .resultBox {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      text-align: center;
+      color: darkred;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>❤️ Robin ❤️</h1>
+  <h2>Will you be my Valentine? 😳💘</h2>
+
+  <div class="buttons">
+    <button id="yes">Yes 💖</button>
+    <button id="no">No 😐</button>
+  </div>
+
+  <div id="msg"></div>
+
+  <script>
+    const noBtn = document.getElementById("no");
+    const msg = document.getElementById("msg");
+
+    let noCount = 0;
+
+    function moveNoButton() {
+      noCount++;
+
+      let x = Math.random() * (window.innerWidth - 200);
+      let y = Math.random() * (window.innerHeight - 200);
+
+      noBtn.style.position = "fixed";
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+
+      if (noCount < 3) {
+        msg.innerText = "Maar khani hai kya 😭😂";
+      } else {
+        msg.innerText =
+          "Sachme pitna hai kya 😈😈\nChup chaap YES pe click kro ❤️";
+      }
+    }
+
+    noBtn.addEventListener("mouseover", moveNoButton);
+    noBtn.addEventListener("touchstart", moveNoButton);
+    noBtn.addEventListener("click", moveNoButton);
+
+    // ✅ YES Click Celebration
+    document.getElementById("yes").onclick = () => {
+
+      // ✅ Full page light pink background
+      document.body.style.background = "#ffd6e8";
+      document.body.innerHTML = "";
+
+      // ✅ Center Text
+      const result = document.createElement("div");
+      result.className = "resultBox";
+      result.innerHTML = `
+        <h1 style="font-size:70px;">🎉 Hehhe Robin ❤️</h1>
+        <h2 style="font-size:45px;">Love You Budhuu Bachaa mera 🥰💖</h2>
+        <p style="font-size:30px;">tumne shuru me "No" pe toh click nhi kiya tha?🥹🥹🥹</p>
+        
+      `;
+      document.body.appendChild(result);
+
+      // ✅ Hearts Everywhere Full Page
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerText = "💖";
+
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.fontSize = Math.random() * 50 + 20 + "px";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 6000);
+      }, 100);
+
+      // ✅ Confetti Blast
+      for (let i = 0; i < 120; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+
+        confetti.style.left = Math.random() * window.innerWidth + "px";
+        confetti.style.background =
+          `hsl(${Math.random() * 360},100%,60%)`;
+
+        document.body.appendChild(confetti);
+
+        setTimeout(() => confetti.remove(), 3000);
+      }
+    };
+  </script>
+
+</body>
+</html>
